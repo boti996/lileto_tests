@@ -1,5 +1,7 @@
 package boti996.lileto.tests.helpers
 
+import com.sun.org.apache.xpath.internal.operations.Bool
+
 internal fun descriptionListSizeAssertion(description: List<String>, size: Int = 2) =
     assert(description.size == size)
     { "Description must contain the first and last part of the description sentence." }
@@ -7,24 +9,38 @@ internal fun descriptionListSizeAssertion(description: List<String>, size: Int =
 internal fun trimWhitespaces(string: String, shouldTrim: Boolean = true)
         = if (shouldTrim) string.trim() else string
 
+internal fun useClosingMark(bracket: BracketWithContent, shouldUseClosingMark: Boolean = true)
+        = if (shouldUseClosingMark) bracket.close() else "}"
+
 /* General test cases */
 
 internal fun singleBracketInPlaintext(bracket: BracketWithContent,
                                       expectedContent: String)
-        : Pair<String, String> {
+        : testcase {
 
-    return multipleBracketsInPlaintext(
+    return _multipleBracketsInPlaintext(
         brackets = listOf(bracket),
         expectedContents = listOf(expectedContent),
         description = listOf("Inserting bracket", "into plain text.")
     )
-    }
+}
+
+internal fun singleBracketInPlaintext_noClosingMarkerChar(bracket: BracketWithContent,
+                                                          expectedContent: String)
+        : testcase {
+    return _multipleBracketsInPlaintext(
+        brackets = listOf(bracket),
+        expectedContents = listOf(expectedContent),
+        description = listOf("Inserting bracket without closing marker character", "into plaintext."),
+        useClosingMark = false
+    )
+}
 
 internal fun singleBracketInPlaintext_trimWhitespaces(bracket: BracketWithContent,
                                                       expectedContent: String)
-        : Pair<String, String>  {
+        : testcase  {
 
-    return multipleBracketsInPlaintext(
+    return _multipleBracketsInPlaintext(
         brackets = listOf(bracket),
         expectedContents = listOf(expectedContent),
         description = listOf(
@@ -35,10 +51,21 @@ internal fun singleBracketInPlaintext_trimWhitespaces(bracket: BracketWithConten
 }
 
 internal fun multipleBracketsInPlaintext(brackets: List<BracketWithContent>,
+                                        expectedContents: List<String>)
+        : testcase {
+    return _multipleBracketsInPlaintext(
+        brackets = brackets,
+        expectedContents = expectedContents,
+        description = listOf("Insert multiple brackets", "into plain text.")
+    )
+}
+
+internal fun _multipleBracketsInPlaintext(brackets: List<BracketWithContent>,
                                          expectedContents: List<String>,
-                                         description: List<String> = listOf("Insert multiple brackets", "into plain text."),
-                                         trimWhitespaces: Boolean = true)
-        : Pair<String, String>  {
+                                         description: List<String>,
+                                         trimWhitespaces: Boolean = true,
+                                         useClosingMark: Boolean = true)
+        : testcase {
 
     descriptionListSizeAssertion(description, 2)
 
@@ -51,7 +78,7 @@ internal fun multipleBracketsInPlaintext(brackets: List<BracketWithContent>,
         strings.add(" [")
         strings.add(brackets[i].open())
         strings.add(brackets[i].content)
-        strings.add(brackets[i].close())
+        strings.add(useClosingMark(brackets[i], useClosingMark))
         strings.add("] ")
 
         expectedStrings.add(" [")
@@ -71,7 +98,7 @@ internal fun singleBracketEmbeddedIntoBracket(outerBracket: BracketWithContent,
                                               innerBracket: BracketWithContent,
                                               expectedContent: String,
                                               description: List<String> = listOf("Insert bracket embedded", "into another bracket."))
-        : Pair<String, String> {
+        : testcase {
 
     descriptionListSizeAssertion(description, 2)
 
