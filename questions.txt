@@ -1,0 +1,4 @@
+*How should we interpret these case:
+    {" some "} text "}
+    {" some{< bracket >} and text "}
+    plain text\t\n{. comment .}\n\tplain text
