@@ -1,5 +1,14 @@
 package boti996.lileto.tests
 
+import boti996.lileto.tests.helpers.BracketType
+import boti996.lileto.tests.helpers.BracketWithContent
+import boti996.lileto.tests.helpers.SpecialCharacter
+import boti996.lileto.tests.helpers.bracketListOf
+import boti996.lileto.tests.helpers.buildTestCaseEntry
+import boti996.lileto.tests.helpers.multipleBracketsInPlaintext
+import boti996.lileto.tests.helpers.singleBracketEmbeddedIntoBracket
+import boti996.lileto.tests.helpers.singleBracketInPlaintext
+import boti996.lileto.tests.helpers.singleBracketInPlaintext_trimWhitespaces
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -14,16 +23,25 @@ class TextTests : Spek({
             to "Plain text should not change.",
 
             singleBracketInPlaintext(
-                BracketWithContent(BracketType.TEXT, textPlaceHolder),
-                textPlaceHolder),
+                BracketWithContent(
+                    BracketType.TEXT,
+                    textPlaceHolder
+                ),
+                textPlaceHolder
+            ),
 
             singleBracketInPlaintext_trimWhitespaces(
-                BracketWithContent(BracketType.TEXT, textPlaceHolder),
-                textPlaceHolder),
+                BracketWithContent(
+                    BracketType.TEXT,
+                    textPlaceHolder
+                ),
+                textPlaceHolder
+            ),
 
             multipleBracketsInPlaintext(
-                bracketListOf(Array(3) {BracketType.TEXT to textPlaceHolder}),
-                Array(3) {textPlaceHolder}.toList()),
+                bracketListOf(Array(3) { BracketType.TEXT to textPlaceHolder }),
+                Array(3) { textPlaceHolder }.toList()
+            ),
 
             multipleSpecialBracketsEmbeddedIntoTextBracket(
                 textPlaceHolder,
@@ -32,9 +50,15 @@ class TextTests : Spek({
         )
 
         // Test for each bracket type
-        testCases.addAll(BracketType.values()
+        testCases.addAll(
+            BracketType.values()
             .filter { bracket -> bracket != BracketType.SPECIAL_CHAR }
-            .map { bracket -> singleBracketEmbeddedIntoTextBracket(BracketWithContent(bracket, " "))}
+            .map { bracket -> singleBracketEmbeddedIntoTextBracket(
+                BracketWithContent(
+                    bracket,
+                    " "
+                )
+            )}
         )
 
         // Assertions
@@ -52,9 +76,13 @@ internal fun singleBracketEmbeddedIntoTextBracket(innerBracket: BracketWithConte
 
     return singleBracketEmbeddedIntoBracket(
         description = listOf("Inserted brackets in text brackets", "should be escaped."),
-        outerBracket = BracketWithContent(BracketType.TEXT, textPlaceHolder),
+        outerBracket = BracketWithContent(
+            BracketType.TEXT,
+            textPlaceHolder
+        ),
         innerBracket = innerBracket,
-        expectedContent = "$textPlaceHolder${innerBracket.open()}${innerBracket.content}${innerBracket.close()}")
+        expectedContent = "$textPlaceHolder${innerBracket.open()}${innerBracket.content}${innerBracket.close()}"
+    )
 }
 
 internal fun specialBracketEmbeddedIntoTextBracket(textContent: String, specialCharacter: SpecialCharacter)
