@@ -18,6 +18,7 @@ const val textPlaceHolder = "text bracket"
 
 class TextTests : Spek({
     describe("Test the usage of ${BracketType.TEXT.open()} text ${BracketType.TEXT.close()} brackets.") {
+
         val testCases = mutableListOf(
             "Plain text should not change."
             to "Plain text should not change.",
@@ -85,6 +86,7 @@ internal fun singleBracketEmbeddedIntoTextBracket(innerBracket: BracketWithConte
     )
 }
 
+//TODO: unused testcase
 internal fun specialBracketEmbeddedIntoTextBracket(textContent: String, specialCharacter: SpecialCharacter)
         : Pair<String, String> {
 
