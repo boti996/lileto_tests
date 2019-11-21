@@ -1,5 +1,6 @@
 package boti996.lileto.tests
 
+import boti996.lileto.tests.helpers.*
 import boti996.lileto.tests.helpers.BracketType
 import boti996.lileto.tests.helpers.BracketWithContent
 import boti996.lileto.tests.helpers.SpecialCharacter
@@ -14,7 +15,7 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
-const val textPlaceHolder = "text bracket"
+private const val textPlaceHolder = "text bracket"
 
 class TextTests : Spek({
     describe("Test the usage of ${BracketType.TEXT.open()} text ${BracketType.TEXT.close()} brackets.") {
@@ -40,7 +41,7 @@ class TextTests : Spek({
             ),
 
             multipleBracketsInPlaintext(
-                bracketListOf(Array(3) { BracketType.TEXT to textPlaceHolder }),
+                bracketListOf(Array(3) { BracketType.TEXT to textPlaceHolder }.toList()),
                 Array(3) { textPlaceHolder }.toList()
             ),
 
@@ -73,7 +74,7 @@ class TextTests : Spek({
 })
 
 internal fun singleBracketEmbeddedIntoTextBracket(innerBracket: BracketWithContent)
-        : Pair<String, String> {
+        : testcase {
 
     return singleBracketEmbeddedIntoBracket(
         description = listOf("Inserted brackets in text brackets", "should be escaped."),
@@ -88,13 +89,13 @@ internal fun singleBracketEmbeddedIntoTextBracket(innerBracket: BracketWithConte
 
 //TODO: unused testcase
 internal fun specialBracketEmbeddedIntoTextBracket(textContent: String, specialCharacter: SpecialCharacter)
-        : Pair<String, String> {
+        : testcase {
 
     return multipleSpecialBracketsEmbeddedIntoTextBracket(textContent, listOf(specialCharacter))
 }
 
 internal fun  multipleSpecialBracketsEmbeddedIntoTextBracket(textContent: String, specialCharacters: List<SpecialCharacter>)
-        : Pair<String, String> {
+        : testcase {
 
     val strings = mutableListOf<String>()
     strings.add("Inserted special bracket in text brackets [${BracketType.TEXT.open()}$textContent")

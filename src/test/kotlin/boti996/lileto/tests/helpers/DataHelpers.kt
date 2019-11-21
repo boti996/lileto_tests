@@ -1,6 +1,13 @@
 package boti996.lileto.tests.helpers
 
 /**
+ * Alias for simple testcases.
+ * [Pair]'s first element is a [String] in Lileto language.
+ * [Pair]'s second element is the expected result [String].
+ */
+typealias testcase = Pair<String, String>
+
+/**
  * Store the literals of Lileto brackets
  * @param literals opening and closing characters
  */
@@ -58,7 +65,7 @@ internal data class BracketWithContent(val bracket: BracketType, val content: An
  * into a [List] of [BracketWithContent]
  * @param brackets data to convert
  */
-internal fun bracketListOf(brackets: Array<Pair<BracketType, Any>>)
+internal fun bracketListOf(brackets: List<Pair<BracketType, Any>>)
         : List<BracketWithContent> = brackets.map {
     BracketWithContent(
         bracket = it.first,
@@ -73,7 +80,7 @@ internal fun bracketListOf(brackets: Array<Pair<BracketType, Any>>)
  */
 internal fun buildTestCaseEntry(input: List<Any>,
                                 expected: String)
-        : Pair<String, String> {
+        : testcase {
 
     return Pair(input.joinToString(separator = ""), expected)
 }
