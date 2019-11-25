@@ -51,7 +51,7 @@ class TextTests : Spek({
             )
         )
 
-        // Test for each bracket type
+        // Test for each bracket type - except special character bracket
         testCases.addAll(
             BracketType.values()
             .filter { bracket -> bracket != BracketType.SPECIAL_CHAR }
