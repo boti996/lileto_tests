@@ -1,5 +1,6 @@
 package boti996.lileto.tests
 
+import boti996.lileto.tests.helpers.*
 import boti996.lileto.tests.helpers.BracketType
 import boti996.lileto.tests.helpers.BracketWithContent
 import boti996.lileto.tests.helpers.bracketListOf
@@ -40,6 +41,17 @@ class CommentTests : Spek({
             )
         )
 
+        // Test for each bracket type
+        testCases.addAll(
+            BracketType.values()
+                .map { bracket -> singleBracketEmbeddedIntoCommentBracket(
+                    BracketWithContent(
+                        bracket,
+                        " "
+                    )
+                ) }
+        )
+
         // Assertions
         testCases.forEach { (input, expected) ->
             it("ASSERTION: $expected") {
@@ -48,3 +60,17 @@ class CommentTests : Spek({
         }
     }
 })
+
+internal fun singleBracketEmbeddedIntoCommentBracket(innerBracket: BracketWithContent)
+        : testcase {
+
+    return singleBracketEmbeddedIntoBracket(
+        description = listOf("Inserted brackets in comment brackets", "should be escaped."),
+        outerBracket = BracketWithContent(
+            BracketType.COMMENT,
+            commentPlaceHolder
+        ),
+        innerBracket = innerBracket,
+        expectedContent = "$commentPlaceHolder${innerBracket.open()}${innerBracket.content}${innerBracket.close()}"
+    )
+}
