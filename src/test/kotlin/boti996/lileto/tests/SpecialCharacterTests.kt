@@ -1,12 +1,21 @@
-package boti996.lileto.tests.helpers
+package boti996.lileto.tests
 
-import boti996.lileto.tests.translateLileto
+import boti996.lileto.tests.helpers.*
+import boti996.lileto.tests.helpers.BracketType
+import boti996.lileto.tests.helpers.BracketWithContent
+import boti996.lileto.tests.helpers.SpecialCharacter
+import boti996.lileto.tests.helpers.bracketListOf
+import boti996.lileto.tests.helpers.buildTestCaseEntry
+import boti996.lileto.tests.helpers.descriptionListSizeAssertion
+import boti996.lileto.tests.helpers.multipleBracketsInPlaintext
+import boti996.lileto.tests.helpers.singleBracketInPlaintext
+import boti996.lileto.tests.helpers.singleBracketInPlaintext_noClosingMarkerChar
+import boti996.lileto.tests.helpers.singleBracketInPlaintext_trimWhitespaces
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import java.lang.StringBuilder
 import kotlin.test.assertEquals
-
 
 private val specialCharPlaceHolder = SpecialCharacter.VBAR
 
@@ -39,8 +48,7 @@ class SpecialCharacterTests : Spek({
             ),
 
             multipleBracketsInPlaintext(
-                bracketListOf(SpecialCharacter.values().map {
-                        specialCharacter ->  BracketType.SPECIAL_CHAR to specialCharacter.literal() }),
+                bracketListOf(SpecialCharacter.values().map { specialCharacter -> BracketType.SPECIAL_CHAR to specialCharacter.literal() }),
                 SpecialCharacter.values().map { specialCharacter -> specialCharacter.character() }
             ),
 
@@ -61,18 +69,24 @@ class SpecialCharacterTests : Spek({
 })
 
 internal fun multipleSpecialCharactersInOneBracket(count: Int)
-        = _multipleSpecialCharactersInOneBracket(count,
-    listOf("Multiple special characters", "in one bracket."))
+        = _multipleSpecialCharactersInOneBracket(
+    count,
+    listOf("Multiple special characters", "in one bracket.")
+)
 
 internal fun multipleSpecialCharactersInOneBracket_notCommaSeparated(count: Int)
-        = _multipleSpecialCharactersInOneBracket(count,
+        = _multipleSpecialCharactersInOneBracket(
+    count,
     listOf("Multiple special characters", "with no comma separation."),
-    useCommas = false)
+    useCommas = false
+)
 
 internal fun multipleSpecialCharactersInOneBracket_unicodeChars(count: Int)
-        = _multipleSpecialCharactersInOneBracket(count,
+        = _multipleSpecialCharactersInOneBracket(
+    count,
     listOf("Multiple special characters", "using Unicode character codes"),
-    useUnicode = true)
+    useUnicode = true
+)
 
 internal fun _multipleSpecialCharactersInOneBracket(count: Int,
                                                     description: List<String>,
@@ -120,5 +134,8 @@ internal fun _multipleSpecialCharactersInOneBracket(count: Int,
     randomContent.append("] ${description[1]}")
     evaluatedContent.append("] ${description[1]}")
 
-    return buildTestCaseEntry(listOf(randomContent.toString()), evaluatedContent.toString())
+    return buildTestCaseEntry(
+        listOf(randomContent.toString()),
+        evaluatedContent.toString()
+    )
 }
