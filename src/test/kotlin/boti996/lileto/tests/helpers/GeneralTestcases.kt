@@ -15,13 +15,14 @@ internal fun useClosingMark(bracket: BracketWithContent, shouldUseClosingMark: B
 /* General test cases */
 
 internal fun singleBracketInPlaintext(bracket: BracketWithContent,
-                                      expectedContent: String)
+                                      expectedContent: String,
+                                      description: List<String> = listOf("Inserting bracket", "into plain text."))
         : testcase {
 
     return _multipleBracketsInPlaintext(
         brackets = listOf(bracket),
         expectedContents = listOf(expectedContent),
-        description = listOf("Inserting bracket", "into plain text.")
+        description = description
     )
 }
 
@@ -51,12 +52,13 @@ internal fun singleBracketInPlaintext_trimWhitespaces(bracket: BracketWithConten
 }
 
 internal fun multipleBracketsInPlaintext(brackets: List<BracketWithContent>,
-                                        expectedContents: List<String>)
+                                        expectedContents: List<String>,
+                                         description: List<String> = listOf("Insert multiple brackets", "into plain text."))
         : testcase {
     return _multipleBracketsInPlaintext(
         brackets = brackets,
         expectedContents = expectedContents,
-        description = listOf("Insert multiple brackets", "into plain text.")
+        description = description
     )
 }
 
