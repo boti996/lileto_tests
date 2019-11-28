@@ -1,5 +1,8 @@
 package boti996.lileto.tests.helpers
 
+// Lileto null value
+internal const val liletoNullValue = "-"
+
 /**
  * Alias for simple testcases.
  * [Pair]'s first element is a [String] in Lileto language.

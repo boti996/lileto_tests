@@ -15,7 +15,7 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
-private const val textPlaceHolder = "text bracket"
+private const val textPlaceholder = "text bracket"
 
 class TextTests : Spek({
     describe("Test the usage of ${BracketType.TEXT.open()} text ${BracketType.TEXT.close()} brackets.") {
@@ -27,26 +27,26 @@ class TextTests : Spek({
             singleBracketInPlaintext(
                 BracketWithContent(
                     BracketType.TEXT,
-                    textPlaceHolder
+                    textPlaceholder
                 ),
-                textPlaceHolder
+                textPlaceholder
             ),
 
             singleBracketInPlaintext_trimWhitespaces(
                 BracketWithContent(
                     BracketType.TEXT,
-                    textPlaceHolder
+                    textPlaceholder
                 ),
-                textPlaceHolder
+                textPlaceholder
             ),
 
             multipleBracketsInPlaintext(
-                bracketListOf(Array(3) { BracketType.TEXT to textPlaceHolder }.toList()),
-                Array(3) { textPlaceHolder }.toList()
+                bracketListOf(Array(3) { BracketType.TEXT to textPlaceholder }.toList()),
+                Array(3) { textPlaceholder }.toList()
             ),
 
             multipleSpecialBracketsEmbeddedIntoTextBracket(
-                textPlaceHolder,
+                textPlaceholder,
                 SpecialCharacter.values().asList()
             )
         )
@@ -80,10 +80,10 @@ internal fun singleBracketEmbeddedIntoTextBracket(innerBracket: BracketWithConte
         description = listOf("Inserted brackets in text brackets", "should be escaped."),
         outerBracket = BracketWithContent(
             BracketType.TEXT,
-            textPlaceHolder
+            textPlaceholder
         ),
         innerBracket = innerBracket,
-        expectedContent = "$textPlaceHolder${innerBracket.open()}${innerBracket.content}${innerBracket.close()}"
+        expectedContent = "$textPlaceholder${innerBracket.open()}${innerBracket.content}${innerBracket.close()}"
     )
 }
 

@@ -17,7 +17,7 @@ import org.jetbrains.spek.api.dsl.it
 import java.lang.StringBuilder
 import kotlin.test.assertEquals
 
-private val specialCharPlaceHolder = SpecialCharacter.VBAR
+private val specialCharPlaceholder = SpecialCharacter.VBAR
 
 class SpecialCharacterTests : Spek({
 
@@ -26,25 +26,25 @@ class SpecialCharacterTests : Spek({
             singleBracketInPlaintext(
                 BracketWithContent(
                     BracketType.SPECIAL_CHAR,
-                    specialCharPlaceHolder.literal()
+                    specialCharPlaceholder.literal()
                 ),
-                specialCharPlaceHolder.character()
+                specialCharPlaceholder.character()
             ),
 
             singleBracketInPlaintext_noClosingMarkerChar(
                 BracketWithContent(
                     BracketType.SPECIAL_CHAR,
-                    specialCharPlaceHolder.literal()
+                    specialCharPlaceholder.literal()
                 ),
-                specialCharPlaceHolder.character()
+                specialCharPlaceholder.character()
             ),
 
             singleBracketInPlaintext_trimWhitespaces(
                 BracketWithContent(
                     BracketType.SPECIAL_CHAR,
-                    specialCharPlaceHolder.literal()
+                    specialCharPlaceholder.literal()
                 ),
-                specialCharPlaceHolder.character()
+                specialCharPlaceholder.character()
             ),
 
             multipleBracketsInPlaintext(

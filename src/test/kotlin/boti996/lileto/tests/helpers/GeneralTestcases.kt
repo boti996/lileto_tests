@@ -37,6 +37,7 @@ internal fun singleBracketInPlaintext_noClosingMarkerChar(bracket: BracketWithCo
     )
 }
 
+//TODO: misconception in whitespace trimming, should be fixed
 internal fun singleBracketInPlaintext_trimWhitespaces(bracket: BracketWithContent,
                                                       expectedContent: String)
         : testcase  {

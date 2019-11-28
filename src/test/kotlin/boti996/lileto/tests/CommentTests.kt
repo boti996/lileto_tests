@@ -12,7 +12,7 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import kotlin.test.assertEquals
 
-private const val commentPlaceHolder = "comment bracket"
+private const val commentPlaceholder = "comment bracket"
 private const val emptinessInMySoul = ""
 
 class CommentTests : Spek({
@@ -22,7 +22,7 @@ class CommentTests : Spek({
             singleBracketInPlaintext(
                 BracketWithContent(
                     BracketType.COMMENT,
-                    commentPlaceHolder
+                    commentPlaceholder
                 ),
                 emptinessInMySoul
             ),
@@ -30,13 +30,13 @@ class CommentTests : Spek({
             singleBracketInPlaintext_trimWhitespaces(
                 BracketWithContent(
                     BracketType.COMMENT,
-                    commentPlaceHolder
+                    commentPlaceholder
                 ),
                 emptinessInMySoul
             ),
 
             multipleBracketsInPlaintext(
-                bracketListOf(Array(3) { BracketType.COMMENT to commentPlaceHolder }.toList()),
+                bracketListOf(Array(3) { BracketType.COMMENT to commentPlaceholder }.toList()),
                 Array(3) { emptinessInMySoul }.toList()
             )
         )
@@ -68,9 +68,9 @@ internal fun singleBracketEmbeddedIntoCommentBracket(innerBracket: BracketWithCo
         description = listOf("Inserted brackets in comment brackets", "should be escaped."),
         outerBracket = BracketWithContent(
             BracketType.COMMENT,
-            commentPlaceHolder
+            commentPlaceholder
         ),
         innerBracket = innerBracket,
-        expectedContent = "$commentPlaceHolder${innerBracket.open()}${innerBracket.content}${innerBracket.close()}"
+        expectedContent = "$commentPlaceholder${innerBracket.open()}${innerBracket.content}${innerBracket.close()}"
     )
 }
