@@ -47,6 +47,11 @@ class TemplateTests : Spek({
                 templatePlaceholder
                 ),
 
+            evaluatedTemplateInPlaintext_possibleContent(
+                templatePlaceholder,
+                templatePlaceholder
+            ),
+
             nonEvaluatedTemplateInPlaintext(
                 templatePlaceholder,
                 emptinessInMySoul
@@ -98,7 +103,7 @@ class TemplateTests : Spek({
                         "$evaluatedTemplateWith3SlotsChunk [21] [22] [23]" +
                         "$evaluatedTemplateWith3SlotsChunk [] [32] []" +
                         "$evaluatedTemplateWith3SlotsChunk [] [] []",
-                description = listOf("Load multiple lines of data", "into template")
+                description = listOf("Create multiple template objects", "with insertion.")
             )
         )
 
@@ -111,10 +116,10 @@ class TemplateTests : Spek({
     }
 })
 
-//TODO: custom description
 internal fun evaluatedTemplateInPlaintext(templateContent: String,
                                           expected: String,
-                                          evaluated: Boolean = true)
+                                          evaluated: Boolean = true,
+                                          description: List<String> = listOf("Inserted evaluated template bracket", "into plaintext."))
         : testcase {
 
     val evaluate = if (evaluated) ".text" else ""
@@ -123,22 +128,39 @@ internal fun evaluatedTemplateInPlaintext(templateContent: String,
             BracketType.COMMAND,
     " template = ${BracketType.TEMPLATE.open()}$templateContent${BracketType.TEMPLATE.close()}\n" +
             "output = template$evaluate "),
-        expected
+        expected,
+        description = description
     )
 }
 
-//TODO: custom description
 internal fun nonEvaluatedTemplateInPlaintext(templateContent: String,
-                                          expected: String)
+                                             expected: String,
+                                             description: List<String> = listOf("Inserted non-evaluated template bracket", "into plaintext."))
         : testcase {
 
     return evaluatedTemplateInPlaintext(templateContent, expected, evaluated = false)
 }
 
-//TODO: custom description
+internal fun evaluatedTemplateInPlaintext_possibleContent(templateContent: String,
+                                                          expected: String,
+                                                          description: List<String> = listOf(
+                                                              "Inserted evaluated template bracket with possible content-elements", "into plaintext."))
+        : testcase {
+
+    return evaluatedTemplateInPlaintext(
+        templateContent +
+                " [${BracketType.TEXT.open()}text braclet${BracketType.TEXT.close()}]" +
+                " [${BracketType.SPECIAL_CHAR.open()}${SpecialCharacter.VBAR.literal()}${BracketType.SPECIAL_CHAR.close()}]" +
+                " [${BracketType.TEMPLATE.open()}=empty_slot${BracketType.TEMPLATE.close()}]",
+        "$expected [text bracket] [${SpecialCharacter.VBAR.character()}] []",
+        description = description
+    )
+}
+
 internal fun evaluatedTemplateInPlaintext_withSlot(templateContent: String,
                                                    slotContent: String,
-                                                   expected: String)
+                                                   expected: String,
+                                                   description: List<String> = listOf("Inserted evaluated template with a slot", "into plaintext."))
         : testcase {
 
     return singleBracketInPlaintext(
@@ -147,25 +169,28 @@ internal fun evaluatedTemplateInPlaintext_withSlot(templateContent: String,
             " template = ${BracketType.TEMPLATE.open()}$templateContent${BracketType.TEMPLATE.close()}\n" +
                     "template.slot = $slotContent" +
                     "output = template.text "),
-        expected
+        expected,
+        description = description
     )
 }
 
-//TODO: custom description
 internal fun evaluatedTemplateInPlaintext_withUnfilledSlot(templateContent: String,
-                                                           expected: String)
+                                                           expected: String,
+                                                           description: List<String> = listOf(
+                                                               "Inserted evaluated template with an unfilled slot", "into plaintext."))
         : testcase {
 
     return evaluatedTemplateInPlaintext_withSlot(
         templateContent,
         liletoNullValue,
-        expected)
+        expected,
+        description = description)
 }
 
 internal fun multipleSlotsInTemplate(templateContent: String,
                                      dataToLoad: String,
                                      expected: String,
-                                     description: List<String> = listOf("Template with multiple slots", "evaluated"))
+                                     description: List<String> = listOf("Inserted evaluated template with multiple slots", "into plaintext."))
         : testcase {
 
     assert(dataToLoad.indexOf(BracketType.CONTAINER.open()) == 0 &&
@@ -179,6 +204,6 @@ internal fun multipleSlotsInTemplate(templateContent: String,
                     "< $dataToLoad\n" +
                     "output template.text"),
         expected,
-        description
+        description = description
     )
 }
