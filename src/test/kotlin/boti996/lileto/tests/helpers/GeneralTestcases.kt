@@ -1,7 +1,5 @@
 package boti996.lileto.tests.helpers
 
-import com.sun.org.apache.xpath.internal.operations.Bool
-
 internal fun descriptionListSizeAssertion(description: List<String>, size: Int = 2) =
     assert(description.size == size)
     { "Description must contain the first and last part of the description sentence." }

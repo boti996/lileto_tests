@@ -8,7 +8,11 @@ internal const val liletoNullValue = "-"
  * [Pair]'s first element is a [String] in Lileto language.
  * [Pair]'s second element is the expected result [String].
  */
-typealias testcase = Pair<String, String>
+internal typealias testcase = Pair<String, String>
+internal typealias testcases = List<testcase>
+
+internal fun testcase.getKeyType() = this.first::class
+internal fun testcase.getValueType() = this.second::class
 
 /**
  * Store the literals of Lileto brackets
