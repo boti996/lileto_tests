@@ -1,71 +1,50 @@
 package boti996.lileto.tests
 
 import boti996.lileto.tests.helpers.*
-import boti996.lileto.tests.helpers.BracketType
-import boti996.lileto.tests.helpers.BracketWithContent
-import boti996.lileto.tests.helpers.SpecialCharacter
-import boti996.lileto.tests.helpers.bracketListOf
-import boti996.lileto.tests.helpers.buildTestCaseEntry
-import boti996.lileto.tests.helpers.descriptionListSizeAssertion
-import boti996.lileto.tests.helpers.multipleBracketsInPlaintext
-import boti996.lileto.tests.helpers.singleBracketInPlaintext
-import boti996.lileto.tests.helpers.singleBracketInPlaintext_noClosingMarkerChar
-import boti996.lileto.tests.helpers.singleBracketInPlaintext_trimWhitespaces
 import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.describe
-import org.jetbrains.spek.api.dsl.it
-import java.lang.StringBuilder
-import kotlin.test.assertEquals
 
 private val specialCharPlaceholder = SpecialCharacter.VBAR
 
 class SpecialCharacterTests : Spek({
 
-    describe("Test the usage of ${BracketType.SPECIAL_CHAR.open()} special character ${BracketType.SPECIAL_CHAR.close()} brackets.") {
-        val testCases = mutableListOf(
-            singleBracketInPlaintext(
-                BracketWithContent(
-                    BracketType.SPECIAL_CHAR,
-                    specialCharPlaceholder.literal()
-                ),
-                specialCharPlaceholder.character()
+    val testCases = mutableListOf(
+        singleBracketInPlaintext(
+            BracketWithContent(
+                BracketType.SPECIAL_CHAR,
+                specialCharPlaceholder.literal()
             ),
+            specialCharPlaceholder.character()
+        ),
 
-            singleBracketInPlaintext_noClosingMarkerChar(
-                BracketWithContent(
-                    BracketType.SPECIAL_CHAR,
-                    specialCharPlaceholder.literal()
-                ),
-                specialCharPlaceholder.character()
+        singleBracketInPlaintext_noClosingMarkerChar(
+            BracketWithContent(
+                BracketType.SPECIAL_CHAR,
+                specialCharPlaceholder.literal()
             ),
+            specialCharPlaceholder.character()
+        ),
 
-            singleBracketInPlaintext_trimWhitespaces(
-                BracketWithContent(
-                    BracketType.SPECIAL_CHAR,
-                    specialCharPlaceholder.literal()
-                ),
-                specialCharPlaceholder.character()
+        singleBracketInPlaintext_trimWhitespaces(
+            BracketWithContent(
+                BracketType.SPECIAL_CHAR,
+                specialCharPlaceholder.literal()
             ),
+            specialCharPlaceholder.character()
+        ),
 
-            multipleBracketsInPlaintext(
-                bracketListOf(SpecialCharacter.values().map { specialCharacter -> BracketType.SPECIAL_CHAR to specialCharacter.literal() }),
-                SpecialCharacter.values().map { specialCharacter -> specialCharacter.character() }
-            ),
+        multipleBracketsInPlaintext(
+            bracketListOf(SpecialCharacter.values().map { specialCharacter -> BracketType.SPECIAL_CHAR to specialCharacter.literal() }),
+            SpecialCharacter.values().map { specialCharacter -> specialCharacter.character() }
+        ),
 
-            multipleSpecialCharactersInOneBracket(10),
+        multipleSpecialCharactersInOneBracket(10),
 
-            multipleSpecialCharactersInOneBracket_notCommaSeparated(10),
+        multipleSpecialCharactersInOneBracket_notCommaSeparated(10),
 
-            multipleSpecialCharactersInOneBracket_unicodeChars(10)
-        )
+        multipleSpecialCharactersInOneBracket_unicodeChars(10)
+    )
 
-        // Assertions
-        testCases.forEach { (input, expected) ->
-            it("ASSERTION: $expected") {
-                assertEquals(expected, translateLileto(input))
-            }
-        }
-    }
+    this.evaluateTestcases(testCases, BracketType.SPECIAL_CHAR)
 })
 
 internal fun multipleSpecialCharactersInOneBracket(count: Int)

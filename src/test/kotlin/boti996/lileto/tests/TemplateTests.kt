@@ -2,9 +2,6 @@ package boti996.lileto.tests
 
 import boti996.lileto.tests.helpers.*
 import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.describe
-import org.jetbrains.spek.api.dsl.it
-import kotlin.test.assertEquals
 
 private const val templatePlaceholder = "template bracket"
 private const val templateWithSlotPlaceholder = "template bracket with slot [ {<=slot>} ]"
@@ -19,101 +16,94 @@ private fun addContanerElement(element: Any) = "${BracketType.TEXT.open()}$eleme
 
 class TemplateTests : Spek({
 
-    describe("Test the usage of ${BracketType.TEMPLATE.open()} template ${BracketType.TEMPLATE.close()} brackets.") {
-        val testCases = mutableListOf(
-            singleBracketInPlaintext(
-                BracketWithContent(
-                    BracketType.TEMPLATE,
-                    templatePlaceholder
-                ),
-                emptinessInMySoul
-            ),
-
-            singleBracketInPlaintext_trimWhitespaces(
-                BracketWithContent(
-                    BracketType.SPECIAL_CHAR,
-                    templatePlaceholder
-                ),
-                emptinessInMySoul
-            ),
-
-            multipleBracketsInPlaintext(
-                bracketListOf(Array(3) { BracketType.TEMPLATE to templatePlaceholder }.toList()),
-                Array(3) { emptinessInMySoul }.toList()
-            ),
-
-            evaluatedTemplateInPlaintext(
-                templatePlaceholder,
-                templatePlaceholder
-                ),
-
-            evaluatedTemplateInPlaintext_possibleContent(
-                templatePlaceholder,
+    val testCases = mutableListOf(
+        singleBracketInPlaintext(
+            BracketWithContent(
+                BracketType.TEMPLATE,
                 templatePlaceholder
             ),
+            emptinessInMySoul
+        ),
 
-            nonEvaluatedTemplateInPlaintext(
-                templatePlaceholder,
-                emptinessInMySoul
+        singleBracketInPlaintext_trimWhitespaces(
+            BracketWithContent(
+                BracketType.SPECIAL_CHAR,
+                templatePlaceholder
+            ),
+            emptinessInMySoul
+        ),
+
+        multipleBracketsInPlaintext(
+            bracketListOf(Array(3) { BracketType.TEMPLATE to templatePlaceholder }.toList()),
+            Array(3) { emptinessInMySoul }.toList()
+        ),
+
+        evaluatedTemplateInPlaintext(
+            templatePlaceholder,
+            templatePlaceholder
             ),
 
-            evaluatedTemplateInPlaintext_withSlot(
-                templateWithSlotPlaceholder,
-                slotPlaceholder,
-                evaluatedTemplateWithSlot
-            ),
+        evaluatedTemplateInPlaintext_possibleContent(
+            templatePlaceholder,
+            templatePlaceholder
+        ),
 
-            evaluatedTemplateInPlaintext_withUnfilledSlot(
-                templateWithSlotPlaceholder,
-                evaluatedTemplateWithUnfilledSlot
-            ),
+        nonEvaluatedTemplateInPlaintext(
+            templatePlaceholder,
+            emptinessInMySoul
+        ),
 
-            multipleSlotsInTemplate(
-                templateWith3SlotsPlaceholder,
-                BracketType.CONTAINER.open() +
-                        "slot1:=${addContanerElement("first")}" +
-                        "slot2:=${addContanerElement("second")}" +
-                        "slot3:=${addContanerElement("third")}" +
-                        BracketType.CONTAINER.close(),
-                "$evaluatedTemplateWith3SlotsChunk [first] [second] [third]"
-            ),
+        evaluatedTemplateInPlaintext_withSlot(
+            templateWithSlotPlaceholder,
+            slotPlaceholder,
+            evaluatedTemplateWithSlot
+        ),
 
-            multipleSlotsInTemplate(
-                templateWith3SlotsPlaceholder,
-                BracketType.CONTAINER.open() +
-                        "slot1 slot2 slot3 |\n" +
-                        addContanerElement(11) +
-                        addContanerElement(12) +
-                        addContanerElement(13) +
+        evaluatedTemplateInPlaintext_withUnfilledSlot(
+            templateWithSlotPlaceholder,
+            evaluatedTemplateWithUnfilledSlot
+        ),
 
-                        addContanerElement(21) +
-                        addContanerElement(22) +
-                        addContanerElement(23) +
+        multipleSlotsInTemplate(
+            templateWith3SlotsPlaceholder,
+            BracketType.CONTAINER.open() +
+                    "slot1:=${addContanerElement("first")}" +
+                    "slot2:=${addContanerElement("second")}" +
+                    "slot3:=${addContanerElement("third")}" +
+                    BracketType.CONTAINER.close(),
+            "$evaluatedTemplateWith3SlotsChunk [first] [second] [third]"
+        ),
 
-                        addContanerElement(liletoNullValue) +
-                        addContanerElement(32) +
-                        addContanerElement(liletoNullValue) +
+        multipleSlotsInTemplate(
+            templateWith3SlotsPlaceholder,
+            BracketType.CONTAINER.open() +
+                    "slot1 slot2 slot3 |\n" +
+                    addContanerElement(11) +
+                    addContanerElement(12) +
+                    addContanerElement(13) +
 
-                        addContanerElement(liletoNullValue) +
-                        addContanerElement(liletoNullValue) +
-                        addContanerElement(liletoNullValue) +
+                    addContanerElement(21) +
+                    addContanerElement(22) +
+                    addContanerElement(23) +
 
-                        BracketType.CONTAINER.close(),
-                "$evaluatedTemplateWith3SlotsChunk [11] [12] [13]" +
-                        "$evaluatedTemplateWith3SlotsChunk [21] [22] [23]" +
-                        "$evaluatedTemplateWith3SlotsChunk [] [32] []" +
-                        "$evaluatedTemplateWith3SlotsChunk [] [] []",
-                description = listOf("Create multiple template objects", "with insertion.")
-            )
+                    addContanerElement(liletoNullValue) +
+                    addContanerElement(32) +
+                    addContanerElement(liletoNullValue) +
+
+                    addContanerElement(liletoNullValue) +
+                    addContanerElement(liletoNullValue) +
+                    addContanerElement(liletoNullValue) +
+
+                    BracketType.CONTAINER.close(),
+            "$evaluatedTemplateWith3SlotsChunk [11] [12] [13]" +
+                    "$evaluatedTemplateWith3SlotsChunk [21] [22] [23]" +
+                    "$evaluatedTemplateWith3SlotsChunk [] [32] []" +
+                    "$evaluatedTemplateWith3SlotsChunk [] [] []",
+            description = listOf("Create multiple template objects", "with insertion.")
         )
+    )
 
-        // Assertions
-        testCases.forEach { (input, expected) ->
-            it("ASSERTION: $expected") {
-                assertEquals(expected, translateLileto(input))
-            }
-        }
-    }
+    this.evaluateTestcases(testCases, BracketType.TEMPLATE)
 })
 
 internal fun evaluatedTemplateInPlaintext(templateContent: String,
